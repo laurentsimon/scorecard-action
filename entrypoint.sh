@@ -77,4 +77,6 @@ cd "$GITHUB_WORKSPACE"
 echo "Result publication enabled: $SCORECARD_PUBLISH_RESULTS"
 
 #jq '.' "$SCORECARD_RESULTS_FILE"
-cat results.sarif
+pwd
+ls
+cat ./results.sarif
