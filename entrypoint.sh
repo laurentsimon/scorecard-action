@@ -47,32 +47,34 @@ fi
 # This allows GitHub to highlight the file.
 cd "$GITHUB_WORKSPACE"
 
-if [[ "$GITHUB_EVENT_NAME" == "pull_request"* ]]
-then
-    # For pull request events, we run on a local folder.
-    if [[ -z "$SCORECARD_POLICY_FILE" ]]
-    then
-        $SCORECARD_BIN --local . --format "$SCORECARD_RESULTS_FORMAT" --show-details > "$SCORECARD_RESULTS_FILE"
-    else
-        $SCORECARD_BIN --local . --format "$SCORECARD_RESULTS_FORMAT" --show-details --policy "$SCORECARD_POLICY_FILE" > "$SCORECARD_RESULTS_FILE"
-    fi
-else
-    # For other events, we run on the repo.
 
-    # For the branch protection trigger, we only run the Branch-Protection check.
-    if [[ "$GITHUB_EVENT_NAME" == "branch_protection_rule" ]]
-    then
-        export ENABLED_CHECKS="--checks Branch-Protection"
-    fi
+# if [[ "$GITHUB_EVENT_NAME" == "pull_request"* ]]
+# then
+#     # For pull request events, we run on a local folder.
+#     if [[ -z "$SCORECARD_POLICY_FILE" ]]
+#     then
+#         $SCORECARD_BIN --local . --format "$SCORECARD_RESULTS_FORMAT" --show-details > "$SCORECARD_RESULTS_FILE"
+#     else
+#         $SCORECARD_BIN --local . --format "$SCORECARD_RESULTS_FORMAT" --show-details --policy "$SCORECARD_POLICY_FILE" > "$SCORECARD_RESULTS_FILE"
+#     fi
+# else
+#     # For other events, we run on the repo.
+
+#     # For the branch protection trigger, we only run the Branch-Protection check.
+#     if [[ "$GITHUB_EVENT_NAME" == "branch_protection_rule" ]]
+#     then
+#         export ENABLED_CHECKS="--checks Branch-Protection"
+#     fi
     
-    if [[ -z "$SCORECARD_POLICY_FILE" ]]
-    then
-        $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $ENABLED_CHECKS --show-details > "$SCORECARD_RESULTS_FILE"
-    else
-        $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $ENABLED_CHECKS --show-details --policy "$SCORECARD_POLICY_FILE" > "$SCORECARD_RESULTS_FILE"
-    fi
-fi
+#     if [[ -z "$SCORECARD_POLICY_FILE" ]]
+#     then
+#         $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $ENABLED_CHECKS --show-details > "$SCORECARD_RESULTS_FILE"
+#     else
+#         $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $ENABLED_CHECKS --show-details --policy "$SCORECARD_POLICY_FILE" > "$SCORECARD_RESULTS_FILE"
+#     fi
+# fi
 
 echo "Result publication enabled: $SCORECARD_PUBLISH_RESULTS"
 
-jq '.' "$SCORECARD_RESULTS_FILE"
+#jq '.' "$SCORECARD_RESULTS_FILE"
+cat results.sarif
