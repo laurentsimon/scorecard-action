@@ -31,7 +31,7 @@ export SCORECARD_RESULTS_FILE="$INPUT_RESULTS_FILE"
 export SCORECARD_RESULTS_FORMAT="$INPUT_RESULTS_FORMAT"
 export SCORECARD_PUBLISH_RESULTS="$INPUT_PUBLISH_RESULTS"
 export SCORECARD_BIN="/scorecard"
-export ENABLED_CHECKS=
+export SCORECARD_ENABLED_CHECKS=
 
 ## ============================== WARNING ======================================
 # https://docs.github.com/en/actions/learn-github-actions/environment-variables
@@ -125,18 +125,14 @@ else
     # For the branch protection trigger, we only run the Branch-Protection check.
     if [[ "$GITHUB_EVENT_NAME" == "branch_protection_rule" ]]
     then
-        export ENABLED_CHECKS="--checks Branch-Protection"
+        export SCORECARD_ENABLED_CHECKS="--checks Branch-Protection"
     fi
     
     if [[ -z "$SCORECARD_POLICY_FILE" ]]
     then
-        echo "no policy file present"
-        echo $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $ENABLED_CHECKS --show-details > "$SCORECARD_RESULTS_FILE"
-        $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $ENABLED_CHECKS --show-details > "$SCORECARD_RESULTS_FILE"
+        $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $SCORECARD_ENABLED_CHECKS --show-details > "$SCORECARD_RESULTS_FILE"
     else
-        echo "policy file present"
-        echo $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $ENABLED_CHECKS --show-details --policy "$SCORECARD_POLICY_FILE"
-        $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $ENABLED_CHECKS --show-details --policy "$SCORECARD_POLICY_FILE" > "$SCORECARD_RESULTS_FILE"
+        $SCORECARD_BIN --repo="$GITHUB_REPOSITORY" --format "$SCORECARD_RESULTS_FORMAT" $SCORECARD_ENABLED_CHECKS --show-details --policy "$SCORECARD_POLICY_FILE" > "$SCORECARD_RESULTS_FILE"
     fi
 fi
 
