@@ -21,24 +21,23 @@
 #           -e INPUT_REPO_TOKEN=$GITHUB_AUTH_TOKEN \
 #           -e GITHUB_REPOSITORY="ossf/scorecard" \
 #           laurentsimon/scorecard-action:latest
-#FROM gcr.io/openssf/scorecard:v4.2.0@sha256:3e5e5f7ed6d85f858ff444dd249f8ee78324690bd1686e698635558c69ead698 as base
-FROM laurentsimon/scorecard-action:latest
+FROM gcr.io/openssf/scorecard:v4.2.0@sha256:3e5e5f7ed6d85f858ff444dd249f8ee78324690bd1686e698635558c69ead698 as base
 
-# # Build our image and update the root certs.
-# # TODO: use distroless.
-# FROM debian:11.3-slim@sha256:f75d8a3ac10acdaa9be6052ea5f28bcfa56015ff02298831994bd3e6d66f7e57
-# RUN apt-get update && \
-#     apt-get install -y --no-install-recommends \
-#     jq ca-certificates curl
+# Build our image and update the root certs.
+# TODO: use distroless.
+FROM debian:11.3-slim@sha256:f75d8a3ac10acdaa9be6052ea5f28bcfa56015ff02298831994bd3e6d66f7e57
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    jq ca-certificates curl
 
-# # Copy the scorecard binary from the official scorecard image.
-# COPY --from=base /scorecard /scorecard
+# Copy the scorecard binary from the official scorecard image.
+COPY --from=base /scorecard /scorecard
 
-# # Copy a test policy for local testing.
-# COPY policies/template.yml  /policy.yml
+# Copy a test policy for local testing.
+COPY policies/template.yml  /policy.yml
 
-# # Our entry point.
-# # Note: the file is executable in the repo
-# # and permission carry over to the image.
-# COPY entrypoint.sh /entrypoint.sh
-# ENTRYPOINT ["/entrypoint.sh"]
+# Our entry point.
+# Note: the file is executable in the repo
+# and permission carry over to the image.
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
