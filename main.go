@@ -15,7 +15,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -40,8 +39,6 @@ func main() {
 		if err != nil {
 			log.Fatalf("error generating json scorecard results: %v", err)
 		}
-
-		fmt.Println("JSON_PAYLOAD:", jsonPayload)
 
 		// Processes json results.
 		repoName := os.Getenv(options.EnvGithubRepository)
