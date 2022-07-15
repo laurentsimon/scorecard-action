@@ -15,6 +15,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -40,10 +41,7 @@ func main() {
 			log.Fatalf("error generating json scorecard results: %v", err)
 		}
 
-		// Sign json results.
-		if err = signing.SignScorecardResult("results.json"); err != nil {
-			log.Fatalf("error signing scorecard json results: %v", err)
-		}
+		fmt.Println("JSON_PAYLOAD:", jsonPayload)
 
 		// Processes json results.
 		repoName := os.Getenv(options.EnvGithubRepository)
