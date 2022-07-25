@@ -281,3 +281,5 @@ require (
 	github.com/sigstore/rekor v0.5.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
 )
+
+//replace github.com/ossf/scorecard/v4 => github.com/laurentsimon/scorecard e53c7d02852c41964362aa3e7c8561dca407ba06
